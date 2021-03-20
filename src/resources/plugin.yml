@@ -1,0 +1,38 @@
+main: ${project.groupId}.SendGlowPackets
+name: ${project.artifactId}
+version: ${project.version}
+api: 1.12.2
+api-version: 1.12.2
+prefix: SGP
+description: Sends potion effect of glowing packet for players
+authors: [Hiro_m]
+author: Hiro_m
+depend:
+  - ProtocolLib
+
+
+permissions:
+  sendglowpackets.all:
+    deufalt: false
+    description: Implies all SendGlowPackets permissions.
+    children:
+      sendglowpackets.all: true
+  sendglowpackets.all:
+    deufalt: false
+    description: Implies all SendGlowPackets permissions.
+    children:
+      sendglowpackets.send: true
+      sendglowpackets.manage: true
+  sendglowpackets.send:
+    deufalt: false
+    description: Allow you to send a packet of potion effect of glowing for a player.
+  sendglowpackets.manage:
+    deufalt: false
+    description: Allow you to manage players who is receiving packets.
+
+commands:
+  sendglowpackets:
+    aliases: [sendglowpacket, sgp]
+    description: SendGlowPackets command
+    usage: /<command> help
+    default: true
