@@ -29,7 +29,6 @@ public class EntityMetadataListener extends PacketAdapter {
 	@Override
     public void onPacketSending(PacketEvent packetEvent) {
         PacketContainer packet = packetEvent.getPacket();
-		packetEvent.getPlayer().sendMessage("listen");
 		if(packet.getType() == PacketType.Play.Server.ENTITY_METADATA) {
 
 			final int entityId = packet.getIntegers().read(0);
@@ -43,7 +42,6 @@ public class EntityMetadataListener extends PacketAdapter {
 			if (metaData == null || metaData.isEmpty()) return;
 
 			final Player player = packetEvent.getPlayer();
-			player.sendMessage("46");
 			final World world = player.getWorld();
 			final Entity entity = world
 				.getEntities()
@@ -55,6 +53,9 @@ public class EntityMetadataListener extends PacketAdapter {
 
 			// check if player is a receiver
 			if (!packetManager.isReceiver(player)) return;
+
+			// check if entity is a player
+			if (!(entity instanceof Player)) return;
 
 			// Update the DataWatcher Item
 			final WrappedWatchableObject wrappedEntityObj = metaData.get(0);
