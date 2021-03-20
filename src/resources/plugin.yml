@@ -12,7 +12,7 @@ depend:
 
 
 permissions:
-  sendglowpackets.all:
+  sendglowpackets.*:
     deufalt: false
     description: Implies all SendGlowPackets permissions.
     children:
@@ -21,11 +21,11 @@ permissions:
     deufalt: false
     description: Implies all SendGlowPackets permissions.
     children:
-      sendglowpackets.send: true
+      sendglowpackets.receive: true
       sendglowpackets.manage: true
-  sendglowpackets.send:
+  sendglowpackets.receive:
     deufalt: false
-    description: Allow you to send a packet of potion effect of glowing for a player.
+    description: Allow you to receive a packet of potion effect of glowing for a player.
   sendglowpackets.manage:
     deufalt: false
     description: Allow you to manage players who is receiving packets.
