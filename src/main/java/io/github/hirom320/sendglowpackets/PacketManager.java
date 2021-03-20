@@ -9,34 +9,30 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher.*;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher.Registry;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher.Serializer;
 
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class PacketManager {
 
 	private final SendGlowPackets plugin;
 	private final ProtocolManager protocolManager;
 
-	private class SendPacketTask extends BukkitRunnable {
-		@Override
-		public void run() {
-			glowPlayersForReceivers();
-		}
-	}
-
 	public PacketManager(SendGlowPackets plugin) {
 		this.plugin = plugin;
 		this.protocolManager = ProtocolLibrary.getProtocolManager();
-		new SendPacketTask().runTaskTimer(plugin, 0, 2);
+		protocolManager.addPacketListener(new EntityMetadataListener(plugin, this));
 	}
+
+	public void a(String msg) { plugin.getServer().getConsoleSender().sendMessage(msg);}
 
 	private Set<Player> receivers = new HashSet<>();
 
 	public void addReceiver(Player player) {
 		receivers.add(player);
+		glowPlayersForReceivers();
 	}
 
 	public void removeReceiver(Player player) {
@@ -98,6 +94,7 @@ public class PacketManager {
 		return packet;
 	}
 
+	@SuppressWarnings("unused")
 	private void unglowPlayersFor(Player receiver) {
 		for(Player player : plugin.getServer().getOnlinePlayers()) {
 			PacketContainer effect = unglowEffectPacket(player);
@@ -109,6 +106,7 @@ public class PacketManager {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	// https://wiki.vg/Protocol#Entity_Effect
 	private PacketContainer glowEffectPacket(Player player) {
 		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.ENTITY_EFFECT);
