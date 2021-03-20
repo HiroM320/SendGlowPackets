@@ -52,18 +52,18 @@ public class EntityMetadataListener extends PacketAdapter {
 			if (entity == null) return;
 
 			// check if player is a receiver
-			if (!packetManager.isReceiver(player)) return;
-
-			// check if entity is a player
-			if (!(entity instanceof Player)) return;
-
-			// Update the DataWatcher Item
-			final WrappedWatchableObject wrappedEntityObj = metaData.get(0);
-			final Object entityObj = wrappedEntityObj.getValue();
-			if (!(entityObj instanceof Byte)) return;
-			byte entityByte = (byte) entityObj;
-			entityByte = (byte) (entityByte | (byte) 0x40);
-			wrappedEntityObj.setValue(entityByte);
+			if (packetManager.isReceiver(player)) {
+				// check if entity is a player
+				if (entity instanceof Player) {
+					// Update the DataWatcher Item
+					final WrappedWatchableObject wrappedEntityObj = metaData.get(0);
+					final Object entityObj = wrappedEntityObj.getValue();
+					if (!(entityObj instanceof Byte)) return;
+					byte entityByte = (byte) entityObj;
+					entityByte = (byte) (entityByte | (byte) 0x40);
+					wrappedEntityObj.setValue(entityByte);
+				}
+			}
 		}
     }
 }
