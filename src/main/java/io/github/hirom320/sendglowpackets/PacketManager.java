@@ -13,16 +13,24 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher.*;
 
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class PacketManager {
 
 	private final SendGlowPackets plugin;
 	private final ProtocolManager protocolManager;
 
+	private class SendPacketTask extends BukkitRunnable {
+		@Override
+		public void run() {
+			glowPlayersForReceivers();
+		}
+	}
+
 	public PacketManager(SendGlowPackets plugin) {
 		this.plugin = plugin;
 		this.protocolManager = ProtocolLibrary.getProtocolManager();
-		new SendPacketTask(this).runTaskTimer(plugin, 0, 2);
+		new SendPacketTask().runTaskTimer(plugin, 0, 2);
 	}
 
 	private Set<Player> receivers = new HashSet<>();
